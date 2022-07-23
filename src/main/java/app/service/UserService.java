@@ -5,14 +5,18 @@ import app.model.Roles;
 import app.model.User;
 import app.repository.RoleRepository;
 import app.repository.UserRepository;
+import app.util.FileUploadUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 
+import java.io.IOException;
 import java.util.*;
 
 @Service
@@ -95,14 +99,27 @@ public class UserService {
         return userRepository.getOne(id);
     }
 
-    public User registerUser(User user) {
+    public User registerUser(User user, MultipartFile multipartFile) {
         System.out.println("USER SERV: " + user);
         user.setResetToken(UUID.randomUUID().toString().substring(0, 8));
         Roles userRoles = roleRepository.findByRole("USER");
         user.setRoles(new HashSet<Roles>(Arrays.asList(userRoles)));
         user.setPassword(encoder.encode(user.getPassword()));
 
-        return userRepository.save(user);
+        String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+        user.setPhotos(fileName);
+
+        User savedUser = userRepository.save(user);
+
+        String uploadDir = "user-photos/" + savedUser.getId();
+
+        try {
+            FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        return user;
     }
 
     public void save(User user) {

@@ -29,10 +29,11 @@ public class UserController {
     }
 
     @GetMapping(value = "/home")
-    public ModelAndView home() {
-        // Assign the data fetched with the GUI components
-        ModelAndView modelAndView = new ModelAndView("/user/user-dashboard");
-        return modelAndView;
+    public String showTest(Model model) {
+
+        model.addAttribute("user", userService.getCurrentUser());
+
+        return "/user/test";
     }
 
     // USER

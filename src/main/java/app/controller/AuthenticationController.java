@@ -1,5 +1,6 @@
 package app.controller;
 
+import app.repository.UserRepository;
 import com.google.common.collect.ImmutableMap;
 import app.model.User;
 import app.service.UserService;
@@ -10,8 +11,10 @@ import org.springframework.security.web.authentication.logout.SecurityContextLog
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,9 +25,10 @@ import javax.validation.Valid;
 public class AuthenticationController {
 
     private final UserService userService;
-
+    private final UserRepository userRepository;
     @Autowired
-    public AuthenticationController(UserService userService) {
+    public AuthenticationController(UserService userService, UserRepository userRepository) {
+        this.userRepository = userRepository;
         this.userService = userService;
     }
 
@@ -57,7 +61,8 @@ public class AuthenticationController {
 
     // SAVE USER
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public ModelAndView registerUser(@Valid User user, BindingResult bindingResult, ModelMap modelMap) {
+    public ModelAndView registerUser(@Valid User user, @RequestParam("image") MultipartFile multipartFile,
+                                     BindingResult bindingResult, ModelMap modelMap) {
         ModelAndView modelAndView = new ModelAndView();
         if (bindingResult.hasErrors()) {
             modelAndView.addObject("successMessage", "Please correct the errors in form!");
@@ -66,7 +71,8 @@ public class AuthenticationController {
             modelAndView.addObject("successMessage", "User is already registered!");
         }
         else {
-            userService.registerUser(user);
+            userService.registerUser(user, multipartFile);
+
             modelAndView.addObject("successMessage", "User is registered successfully!");
         }
         modelAndView.addObject("user", new User());

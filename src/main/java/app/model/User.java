@@ -48,6 +48,9 @@ public class User implements Serializable {
     @Column(name = "reset_token")
     private String resetToken;
 
+    @Column(nullable = true, length = 64)
+    private String photos;
+
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "user_role",
             joinColumns = {@JoinColumn(name = "user_id")},
@@ -130,5 +133,18 @@ public class User implements Serializable {
         return name + " " + lastName;
     }
 
+    public String getPhotos() {
+        return photos;
+    }
 
+    public void setPhotos(String photos) {
+        this.photos = photos;
+    }
+
+    @Transient
+    public String getPhotosImagePath() {
+        if (photos == null || id == null) return null;
+
+        return "/user-photos/" + id + "/" + photos;
+    }
 }
