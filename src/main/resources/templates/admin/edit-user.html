@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<title>Poker Planner Application</title>
+</head>
+<body class="bg-white">
+	<div class="wrapper">
+		<!-- Sidebar Holder -->
+		<nav id="sidebar">
+			<div class="sidebar-header">
+				<h3>User Menu</h3>
+			</div>
+
+			<ul class="list-unstyled components">
+
+				<li class="nav-item"><a class="nav-link" href="/adminHome">Home</a></li>
+				<li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
+			</ul>
+		</nav>
+
+		<!-- Page Content Holder -->
+		<div id="content">
+
+			<nav class="navbar navbar-expand-lg navbar-dark bg-white">
+				<div class="container-fluid">
+
+					<button type="button" id="sidebarCollapse" class="navbar-btn">
+						<span></span> <span></span> <span></span>
+					</button>
+					<button class="btn btn-dark d-inline-block d-lg-none ml-auto"
+						type="button" data-toggle="collapse"
+						data-target="#navbarSupportedContent"
+						aria-controls="navbarSupportedContent" aria-expanded="false"
+						aria-label="Toggle navigation">
+						<i class="fas fa-align-justify"></i>
+					</button>
+					<h5 class="nav-link" style="color: black;">Poker Planner Application</h5>
+					<div class="collapse navbar-collapse" id="navbarSupportedContent">
+						<ul class="nav navbar-nav ml-auto">
+
+						</ul>
+					</div>
+				</div>
+			</nav>
+			<div class="container my-5">
+                    <h3  style="color: black;" th:if="${user.id != null}">Edit User</h3>
+
+
+                        <form action="#" th:action="@{/updateUser}"
+                                    th:object="${user}" method="post">
+
+                   <div class="form-group col-md-8">
+                         <label for="name" class="col-form-label"  style="color: black; " > First Name
+                                                             </label>
+                           <input type="text" th:field="*{name}"
+                               class="form-control" id="name"
+                                           placeholder="First Name" />
+                   </div>
+
+                   <div class="form-group col-md-8">
+                           <label for="name" class="col-form-label"  style="color: black;" > Last Name
+                                                         </label>
+                            <input type="text" th:field="*{lastName}"
+                                  class="form-control"
+                                    id="lastName" placeholder="Last Name" />
+                   </div>
+
+                    <div class="form-group col-md-8">
+                           <label for="email" class="col-form-label"  style="color: black;" > Email
+                                                           </label>
+                            <input type="text" th:field="*{email}"
+                                      class="form-control" id="email"
+                                                placeholder="Email Id" />
+                    </div>
+                    <div class="form-group col-md-8">
+                                               <label for="email" class="col-form-label"  style="color: black;" > Job Position
+                                                                               </label>
+                                                <input type="text" th:field="*{jobPosition}"
+                                                          class="form-control" id="jobPosition"
+                                                                    placeholder="Job Position" />
+                                        </div>
+
+                   <div class="col-md-6">
+                          <input type="submit" class="btn btn-success"
+                                       value=" Submit ">
+                   </div>
+
+                         <input type="hidden" id="id" th:field="*{id}">
+                                    </div>
+                                </form>
+
+
+	<!-- jQuery CDN - Slim version (=without AJAX) -->
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+	<!-- Popper.JS -->
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+	<!-- Bootstrap JS -->
+	<script
+		src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+	<script src="js/jquery-3.2.1.min.js"></script>
+</body>
+</html>
