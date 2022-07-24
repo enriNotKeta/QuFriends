@@ -7,6 +7,8 @@ import org.hibernate.validator.constraints.Length;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -51,11 +53,19 @@ public class User implements Serializable {
     @Column(nullable = true, length = 64)
     private String photos;
 
+//    @NotNull
+    private LocalDate datePlannedMeeting;
+
+
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "user_role",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id")} )
     private Set<Roles> roles;
+
+
+    @OneToMany(mappedBy="user", cascade = CascadeType.ALL) //session field at session class
+    private List<UserHobby> userHobbies;
 
 
 
@@ -147,4 +157,10 @@ public class User implements Serializable {
 
         return "/user-photos/" + id + "/" + photos;
     }
+
+
+    public List<UserHobby> getUserHobbies() {
+        return userHobbies;
+    }
+
 }

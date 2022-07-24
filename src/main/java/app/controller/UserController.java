@@ -33,7 +33,7 @@ public class UserController {
 
         model.addAttribute("user", userService.getCurrentUser());
 
-        return "/user/test";
+        return "/user/user-dashboard";
     }
 
     // USER
