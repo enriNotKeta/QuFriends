@@ -1,19 +1,25 @@
 package app.model;
 
 
+import lombok.Builder;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
 @Entity
 @Table(name = "users")
-public class User implements Serializable {
+public class User implements UserDetails{
 
     private static final long serialVersionUID = 4048798961366546485L;
 
@@ -53,24 +59,25 @@ public class User implements Serializable {
     @Column(nullable = true, length = 64)
     private String photos;
 
-//    @NotNull
-    private LocalDate datePlannedMeeting;
+    @Column(name = "bdayDate")
+    private LocalDate bdayDate;
 
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @Column(name = "isActive")
+    private Boolean isActive;
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "user_role",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id")} )
     private Set<Roles> roles;
-
-
     @OneToMany(mappedBy="user", cascade = CascadeType.ALL) //session field at session class
     private List<UserHobby> userHobbies;
 
+    @Builder.Default
+    private Boolean locked = false;
 
-
-//    @OneToMany(mappedBy="user", fetch = FetchType.LAZY)
-//    private Set<Board> boards = new HashSet<Board>();
+    @Builder.Default
+    private Boolean enabled = false;
 
     public Long getId(){
         return id;
@@ -96,18 +103,23 @@ public class User implements Serializable {
     public void setEmail(String email){
         this.email = email;
     }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        Set<Roles> roles = this.getRoles();
+        List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+        for (Roles role : roles) {
+            authorities.add(new SimpleGrantedAuthority(role.getRoles()));
+        }
+        return authorities;
+    }
+
     public String getPassword(){
         return password;
     }
     public void setPassword(String password){
         this.password = password;
     }
-    //    public String getMobile(){
-//        return mobile;
-//    }
-//    public void setMobile(String mobile){
-//        this.mobile = mobile;
-//    }
     public Set<Roles> getRoles(){
         return roles;
     }
@@ -135,6 +147,32 @@ public class User implements Serializable {
         return username;
     }
 
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        if(this.isActive == null) return true;
+
+        if(!this.isActive) return false;
+
+        return true;
+    }
+
+
+
     public void setUsername(String username) {
         this.username = username;
     }
@@ -158,9 +196,39 @@ public class User implements Serializable {
         return "/user-photos/" + id + "/" + photos;
     }
 
-
     public List<UserHobby> getUserHobbies() {
         return userHobbies;
     }
 
+    public LocalDate getBdayDate() {
+        return bdayDate;
+    }
+
+    public void setBdayDate(LocalDate bdayDate) {
+        this.bdayDate = bdayDate;
+    }
+
+    public Boolean getLocked() {
+        return locked;
+    }
+
+    public void setLocked(Boolean locked) {
+        this.locked = locked;
+    }
+
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public Boolean getActive() {
+        return isActive;
+    }
+
+    public void setActive(Boolean active) {
+        isActive = active;
+    }
 }

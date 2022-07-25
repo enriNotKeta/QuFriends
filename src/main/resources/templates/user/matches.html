@@ -21,7 +21,7 @@
     <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
         <div class="input-group">
             <input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..." aria-describedby="btnNavbarSearch" />
-            <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
+            <button class="btn btn-secondary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
         </div>
     </form>
     <!-- Navbar-->
@@ -42,7 +42,7 @@
         <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
             <div class="sb-sidenav-menu">
                 <div style="height: 200px;">
-                    <img class="rounded mx-auto d-block" style="height: 200px" th:src="@{${user.photosImagePath}}" />
+                    <img class="rounded mx-auto d-block" style="height: 200px; width: 150px" th:src="@{${currentUser.photosImagePath}}" />
                 </div>
                 <div class="nav">
                     <div class="sb-sidenav-menu-heading">User</div>
@@ -112,24 +112,86 @@
     </div>
     <div id="layoutSidenav_content">
         <main>
-            <div class="card">
-                <div class="card-header">
-                    <h5 class="card-title"><a style="color: black;" >users  </a></h5>
 
-                </div>
-                <div class="card-body" th:each="relationship : ${relationships}">
-                    <div class="card boardOverview">
-                        <div class="card-body">
-                            <h5 class="card-title" th:if="${relationship.getUserA().getId() != user.getId()}">
-                                <a  th:utext="${relationship.getUserA().getName()}">...</a>
-                            </h5>
-                            <h5 class="card-title" th:if="${relationship.getUserB().getId() != user.getId() }">
-                                <a  th:utext="${relationship.getUserB().getName()}">...</a>
-                            </h5>
+            <div class="card-header">
+                <h5 class="card-title">Matches</h5>
+            </div>
+            <div class="mainContainer"th:each="user : ${users}">
+                <span>img</span>
+                <div class="contentContainer" th:unless="${currentUser.getId() == null}">
+                    <div class="card" >
+                        <div class="form-control">
+                            <div class="card-body" >
+                                <div class="card boardOverview">
+                                    <div class="card-body">
+                                        <div class="card-header">
+                                            <h5 class="card-title" th:utext="${user.username}">...</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <p class="card-text" th:utext="${user.getFullName()}">...</p>
+<!--                                            <p class="card-text" th:utext="${user.bdayDate}"></p>-->
+                                            <span class="box">
+                                                <button type="button" class="btn btn-secondary">
+<!--									        <a th:href="@{/sessions/{sessionId}/edit(sessionId=${session1.sessionId})}">Edit Session</a>-->
+									            <a>Chat</a>
+								                </button>
+                                            </span>
+                                            <span class="box">
+                                                <form style="display: inline" th:action="@{/umatch/user/{userId}(userId=${user.id})}" method="post">
+                                                <button type="submit" class="btn btn-secondary" th:name="userId"
+                                                        th:value="${user.id}" >Umatch</button>
+                                            </form>
+                                            </span>
+                                            <span class="box">
+                                                <form style="display: inline" th:action="@{/block/user/{userId}(userId=${user.id})}" method="post">
+                                                <button type="submit" class="btn btn-secondary" th:name="userId"
+                                                        th:value="${user.id}" >Block</button>
+                                            </form>
+                                            </span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         </main>
 
 
@@ -186,28 +248,3 @@
 
 
 
-
-
-
-
-
-
-<!--<!DOCTYPE html>-->
-<!--<html xmlns:th="http://www.thymeleaf.org">-->
-<!--<head>-->
-<!--    <meta charset="ISO-8859-1">-->
-<!--    <title>Welcome to CodeJava Home</title>-->
-<!--    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css" />-->
-<!--    <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>-->
-<!--    <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>-->
-<!--</head>-->
-<!--<body>-->
-<!--<div class="container text-center">-->
-<!--    <h1>Welcome to MyApp</h1>-->
-<!--    <h3><a th:href="@{/users}">List of Users</a></h3>-->
-<!--    <h3><a th:href="@{/register}">Register</a></h3>-->
-<!--    <h3><a th:href="@{/login}">Login</a></h3>-->
-<!--</div>-->
-
-<!--</body>-->
-<!--</html>-->

@@ -1,6 +1,7 @@
 package app.service;
 
 
+import app.exception.BadResourceException;
 import app.model.Roles;
 import app.model.User;
 import app.repository.RoleRepository;
@@ -8,8 +9,12 @@ import app.repository.UserRepository;
 import app.util.FileUploadUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.mail.SimpleMailMessage;
+import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -20,7 +25,7 @@ import java.io.IOException;
 import java.util.*;
 
 @Service
-public class UserService {
+public class UserService implements UserDetailsService {
 
 
     private final UserRepository userRepository;
@@ -170,4 +175,18 @@ public class UserService {
         return user.get();
     }
 
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException, AuthenticationServiceException {
+        User user = userRepository.findByEmail(username);
+        System.out.println(user.isEnabled() + ", enabled");
+        if (user == null) {
+            throw new UsernameNotFoundException("User not found");
+        }
+        else if (!user.isEnabled()) {
+            throw new AuthenticationServiceException("User is banned");
+        }
+
+        return user;
+
+    }
 }
