@@ -25,8 +25,8 @@ public class RelationshipController {
     }
 
     @GetMapping(value = "/matches")
-    public String showTest(Model model) {
-        //check if loggein coz null coz current user
+    public String showMatches(Model model) {
+        System.out.println(userService.getCurrentUser()+ ", currentUser");
         List<User> users = relationshipService.getMatches(userService.getCurrentUser().getId());
         model.addAttribute("currentUser", userService.getCurrentUser());
         model.addAttribute("users", users);

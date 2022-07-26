@@ -161,9 +161,13 @@ public class UserService implements UserDetailsService {
     }
 
     public User getCurrentUser() {
-        String auth = SecurityContextHolder.getContext().getAuthentication().getName();
-        User user = userRepository.findByEmail(auth);
-        return user;
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication.getPrincipal() instanceof User) {
+            return (User) authentication.getPrincipal();
+        } else {
+            throw new UsernameNotFoundException("User is not authenticated; Found " + authentication.getPrincipal() + " of type " + authentication.getPrincipal().getClass() + "; Expected type User");
+        }
     }
 
     public Object findByRole(Long Id) {

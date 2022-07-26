@@ -133,4 +133,33 @@ $(document).ready(function () {
         ResCarousel(ell, Parent, slide);
     }
 
+
+
+
+    $(".popUpStoryLink").click(function() {
+        // boardId = this.id;
+        alert("clicked"); // or alert($(this).attr('id'));
+        var formThActionLink = '@{/boards/' + boardId + '/addstory}'
+        var formActionLink = '/boards/' + boardId + '/addstory'
+        console.log(formActionLink);
+        $('.storyPopUpForm').attr('th:action', formThActionLink);
+        $('.storyPopUpForm').attr('action', formActionLink);
+        console.log($('.storyPopUpForm').attr('action'));
+    });
+
+    $(function() {
+        // Open Popup
+        $('[popup-open]').on('click', function() {
+            var popup_name = $(this).attr('popup-open');
+            $('[popup-name="' + popup_name + '"]').fadeIn(300);
+        });
+
+        // Close Popup
+        $('[popup-close]').on('click', function() {
+            var popup_name = $(this).attr('popup-close');
+            $('[popup-name="' + popup_name + '"]').fadeOut(300);
+        });
+    });
+
+
 });

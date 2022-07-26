@@ -10,35 +10,35 @@ public class UserReport {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "userA", nullable = true)
-    private User userA;
+    @JoinColumn(name = "reporter_user", nullable = false)
+    private User reporterUser;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "userB", nullable = true)
-    private User userB;
+    @JoinColumn(name = "reported_user", nullable = false)
+    private User reportedUser;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "reportFK", nullable = true)
+    @JoinColumn(name = "reportFK", nullable = false)
     private Report report;
 
     public Long getId() {
         return id;
     }
 
-    public User getUserA() {
-        return userA;
+    public User getReporterUser() {
+        return reporterUser;
     }
 
-    public void setUserA(User userA) {
-        this.userA = userA;
+    public void setReporterUser(User reporterUser) {
+        this.reporterUser = reporterUser;
     }
 
-    public User getUserB() {
-        return userB;
+    public User getReportedUser() {
+        return reportedUser;
     }
 
-    public void setUserB(User userB) {
-        this.userB = userB;
+    public void setReportedUser(User reportedUser) {
+        this.reportedUser = reportedUser;
     }
 
     public Report getReport() {

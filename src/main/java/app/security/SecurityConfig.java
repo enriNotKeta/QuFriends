@@ -32,6 +32,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private CustomLoginSuccessHandler sucessHandler;
 
+
     @Autowired
     private DataSource dataSource;
 
@@ -45,6 +46,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+//        auth.eraseCredentials(false);
         auth.userDetailsService(userService);
         auth.jdbcAuthentication().usersByUsernameQuery(usersQuery).
                 authoritiesByUsernameQuery(rolesQuery)
@@ -59,6 +61,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/").permitAll()
                 .antMatchers("/login").permitAll()
                 .antMatchers("/comment").permitAll()
+                .antMatchers("/home").permitAll()
+                .antMatchers("/matches").hasAnyAuthority("USER")
                 .antMatchers("/api/comment/**").permitAll()
                 .antMatchers("/api/story/**").permitAll()
                 .antMatchers("/forgotPassword").permitAll()

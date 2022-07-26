@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="" />
-    <meta name="author" content="" />
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
     <title>Dashboard - SB Admin</title>
-    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
-    <link href="css/styles.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet"/>
+    <link href="css/styles.css" rel="stylesheet"/>
     <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
 </head>
 <body class="sb-nav-fixed">
@@ -16,22 +16,27 @@
     <!-- Navbar Brand-->
     <a class="navbar-brand ps-3" href="../index.html">Start Bootstrap</a>
     <!-- Sidebar Toggle-->
-    <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
+    <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i
+            class="fas fa-bars"></i></button>
     <!-- Navbar Search-->
     <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
         <div class="input-group">
-            <input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..." aria-describedby="btnNavbarSearch" />
+            <input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..."
+                   aria-describedby="btnNavbarSearch"/>
             <button class="btn btn-secondary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
         </div>
     </form>
     <!-- Navbar-->
     <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
         <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
+               aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                 <li><a class="dropdown-item" href="#!">Settings</a></li>
                 <li><a class="dropdown-item" href="#!">Activity Log</a></li>
-                <li><hr class="dropdown-divider" /></li>
+                <li>
+                    <hr class="dropdown-divider"/>
+                </li>
                 <li><a class="dropdown-item" href="#!">Logout</a></li>
             </ul>
         </li>
@@ -42,7 +47,8 @@
         <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
             <div class="sb-sidenav-menu">
                 <div style="height: 200px;">
-                    <img class="rounded mx-auto d-block" style="height: 200px; width: 150px" th:src="@{${currentUser.photosImagePath}}" />
+                    <img class="rounded mx-auto d-block" style="height: 200px; width: 150px"
+                         th:src="@{${currentUser.photosImagePath}}"/>
                 </div>
                 <div class="nav">
                     <div class="sb-sidenav-menu-heading">User</div>
@@ -51,40 +57,50 @@
                         Settings
                     </a>
                     <div class="sb-sidenav-menu-heading">Interface</div>
-                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts"
+                       aria-expanded="false" aria-controls="collapseLayouts">
                         <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
                         Layouts
                         <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                     </a>
-                    <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                    <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne"
+                         data-bs-parent="#sidenavAccordion">
                         <nav class="sb-sidenav-menu-nested nav">
                             <a class="nav-link" href="layout-static.html">Static Navigation</a>
                             <a class="nav-link" href="layout-sidenav-light.html">Light Sidenav</a>
                         </nav>
                     </div>
-                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
+                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages"
+                       aria-expanded="false" aria-controls="collapsePages">
                         <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
                         Pages
                         <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                     </a>
-                    <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
+                    <div class="collapse" id="collapsePages" aria-labelledby="headingTwo"
+                         data-bs-parent="#sidenavAccordion">
                         <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
-                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseAuth" aria-expanded="false" aria-controls="pagesCollapseAuth">
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                               data-bs-target="#pagesCollapseAuth" aria-expanded="false"
+                               aria-controls="pagesCollapseAuth">
                                 Authentication
                                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                             </a>
-                            <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
+                            <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne"
+                                 data-bs-parent="#sidenavAccordionPages">
                                 <nav class="sb-sidenav-menu-nested nav">
                                     <a class="nav-link" href="login.html">Login</a>
                                     <a class="nav-link" href="register.html">Register</a>
                                     <a class="nav-link" href="password.html">Forgot Password</a>
                                 </nav>
                             </div>
-                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseError" aria-expanded="false" aria-controls="pagesCollapseError">
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                               data-bs-target="#pagesCollapseError" aria-expanded="false"
+                               aria-controls="pagesCollapseError">
                                 Error
                                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                             </a>
-                            <div class="collapse" id="pagesCollapseError" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
+                            <div class="collapse" id="pagesCollapseError" aria-labelledby="headingOne"
+                                 data-bs-parent="#sidenavAccordionPages">
                                 <nav class="sb-sidenav-menu-nested nav">
                                     <a class="nav-link" href="401.html">401 Page</a>
                                     <a class="nav-link" href="404.html">404 Page</a>
@@ -114,113 +130,38 @@
         <main>
 
             <div class="card-header">
-                <h5 class="card-title">Matches</h5>
+                <h5 class="card-title">Report User</h5>
             </div>
-            <div class="mainContainer"th:each="user : ${users}">
-                <div class="contentContainer" th:unless="${currentUser.getId() == null}">
-                    <div class="card" >
-                        <div class="form-control">
-                            <div class="card-body" >
-                                <div class="card boardOverview">
-                                    <div class="card-body">
-                                        <div class="card-header">
-                                            <h5 class="card-title" th:utext="${user.username}">...</h5>
-                                        </div>
-                                        <div class="card-body">
-                                            <p class="card-text" th:utext="${user.getFullName()}">...</p>
-<!--                                            <p class="card-text" th:utext="${user.bdayDate}"></p>-->
-                                            <span class="box">
-                                                <button type="button" class="btn btn-secondary">
-<!--									        <a th:href="@{/sessions/{sessionId}/edit(sessionId=${session1.sessionId})}">Edit Session</a>-->
-									            <a>Chat</a>
-								                </button>
-                                            </span>
-                                            <span class="box">
-                                                <form style="display: inline" th:action="@{/umatch/user/{userId}(userId=${user.id})}" method="post">
-                                                <button type="submit" class="btn btn-secondary" th:name="userId"
-                                                        th:value="${user.id}" >Umatch</button>
-                                            </form>
-                                            </span>
-                                            <span class="box">
-                                                <form style="display: inline" th:action="@{/block/user/{userId}(userId=${user.id})}" method="post">
-                                                <button type="submit" class="btn btn-secondary" th:name="userId"
-                                                        th:value="${user.id}" >Block</button>
-                                            </form>
-                                            </span>
-                                            <span class="box">
-                                                <button type="submit" class="btn btn-secondary">
-                                                    <a th:href="@{/user/{userId}/report(userId = ${user.getId()})}">Report</a></button>
-                                            </form>
-                                            </span>
-                                            </span>
-                                        </div>
+
+            <div class="contentContainer" th:unless="${currentUser.getId() == null}">
+                <div class="card">
+                    <div class="card-body">
+                        <form action="#" th:object="${userreport}"
+                              th:action="@{/user/{userId}/report(userId=${userId})}"
+                              method="post">
+                            <div class="form-group">
+                                <label class="col-md-4 control-label"
+                                       for="reportid" style="color: black;">Reasons</label>
+                                <div class="col-md-4">
+                                    <div id="reportid" th:each="report: ${reports}">
+                                        <input name="reasonsBtn" type="radio" th:value="${report.id}" th:object="${report}" th:text="${report.getTitle()}" />
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                            <button type="submit" class="btn btn-primary " id="submitBtn"
+                                    th:name="send">Send
+                            </button>
+
+                        </form>
                     </div>
                 </div>
             </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!--        </main>-->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+            <div class="card-footer">
+                <div class="alert alert-danger alert-dismissible fade show">
+                    <button type="button" class="btn-close" id="alertCloseBtn" data-bs-dismiss="alert">X</button>
+                    <strong th:if="${errorMessage}" th:utext="${errorMessage}"></strong>
+                </div>
+            </div>
 
 
         </main>
@@ -239,7 +180,8 @@
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
 <script src="../js/scripts.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
 <script src="assets/demo/chart-area-demo.js"></script>
@@ -249,6 +191,10 @@
 
 </body>
 </html>
+
+
+
+
 
 
 
