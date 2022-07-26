@@ -1,59 +1,231 @@
 <!DOCTYPE html>
-<html class="no-js" lang="en" xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="http://www.thymeleaf.org">
-<meta charset="ISO-8859-1">
-<title>Poker Planner Application</title>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	<title>Admin Panel</title>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<style>
+		.popup {
+			position:fixed;
+			top:0px;
+			left:0px;
+			background:rgba(0,0,0,0.75);
+			width:100%;
+			height:100%;
+			display:none;
+		}
+
+		/* Popup inner div */
+		.popup-content {
+			width: 500px;
+			margin: 0 auto;
+			box-sizing: border-box;
+			padding: 40px;
+			margin-top: 20px;
+			box-shadow: 0px 2px 6px rgba(0,0,0,1);
+			border-radius: 3px;
+			background: #fff;
+			position: relative;
+		}
+
+		/* Popup close button */
+		.close-button {
+			width: 25px;
+			height: 25px;
+			position: absolute;
+			top: -10px;
+			right: -10px;
+			border-radius: 20px;
+			background: rgba(0,0,0,0.8);
+			font-size: 20px;
+			text-align: center;
+			color: #fff;
+			text-decoration:none;
+		}
+
+		.close-button:hover {
+			background: rgba(0,0,0,1);
+		}
+
+		@media screen and (max-width: 720px) {
+			.popup-content {
+				width:90%;
+			}
+		}
+	</style>
 </head>
-<body class="bg-white">
-	<div class="wrapper">
-		<!-- Sidebar Holder -->
-		<nav id="sidebar">
-			<div class="sidebar-header">
-					<h3>Admin Menu</h3>
-			</div>
-
-			<ul class="list-unstyled components">
-				<li class="nav-item"><a class="nav-link" href="/adminHome">Home</a></li>
-				<li><a href="/addAdmin">Users List</a></li>
-				<li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
-			</ul>
-		</nav>
-
-		<!-- Page Content Holder -->
-		<div id="content">
-
-			<nav class="navbar navbar-expand-lg navbar-dark bg-white">
-				<div class="container-fluid">
-
-					<button type="button" id="sidebarCollapse" class="navbar-btn">
-						<span></span> <span></span> <span></span>
-					</button>
-					<button class="btn btn-dark d-inline-block d-lg-none ml-auto"
-						type="button" data-toggle="collapse"
-						data-target="#navbarSupportedContent"
-						aria-controls="navbarSupportedContent" aria-expanded="false"
-						aria-label="Toggle navigation">
-						<i class="fas fa-align-justify"></i>
-					</button>
-					<h5 class="nav-link" style="color: black;">Poker Planner Application</h5>
-					<div class="collapse navbar-collapse" id="navbarSupportedContent">
-						<ul class="nav navbar-nav ml-auto">
-
-						</ul>
-					</div>
+<body class="sb-nav-fixed">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+	<a class="navbar-brand" href="#">Admin Menu</a>
+	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+		<span class="navbar-toggler-icon"></span>
+	</button>
+	<div class="collapse navbar-collapse" id="navbarNavDropdown">
+		<ul class="navbar-nav">
+			<li class="nav-item active">
+				<a class="nav-link" href="#">Home<span class="sr-only">(current)</span></a>
+			</li>
+			<li class="nav-item">
+				<a class="popUpStoryLink nav-link" popup-open="popup-1" href="javascript:void(0)">Add Report</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="#">Users List</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="#">Logout</a>
+			</li>
+			<li class="nav-item dropdown">
+				<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					Settings
+				</a>
+				<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+					<a class="dropdown-item" href="#">Settings</a>
+					<a class="dropdown-item" href="#">Logout</a>
 				</div>
-			</nav>
-		</div>
-
+			</li>
+		</ul>
 	</div>
-	<!-- jQuery CDN - Slim version (=without AJAX) -->
-	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-	<!-- Popper.JS -->
-	<script
-		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
-	<!-- Bootstrap JS -->
-	<script
-		src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
-	<script src="js/jquery-3.2.1.min.js"></script>
+</nav>
+
+
+<div class="row">
+	<div>
+		<strong th:if="${errorMessage}" th:utext="${errorMessage}"></strong>
+	</div>
+
+	<div class="col-sm-3" th:each="userReport : ${userReports}">
+		<div class="card" style="width: 22rem; display: inline-block" th:unless="${currentUser.getId() == null}">
+			<div class="card-header">
+				<h5 class="card-title" th:utext="${userReport.report.getTitle()}">...</h5>
+			</div>
+			<div class="card-body" style="display: inline-block">
+				<p>Reporter: <p class="card-text" style="display: inline-block" th:utext="${userReport.reporterUser.getUsername()}">...</p></p>
+				<p>Reported: <p class="card-text" style="display: inline-block" th:utext="${userReport.reportedUser.getUsername()}">...</p></p>
+				<p>Description: <p class="card-text" style="display: inline-block" th:utext="${userReport.report.getDescription()}">...</p></p>
+				<span class="box">
+                    <form style="display: inline" th:action="@{/ban/user/{userId}(userId=${userReport.reportedUser.getId()})}" method="post">
+                        <button type="submit" class="btn btn-secondary">Ban User</button>
+                    </form>
+                </span>
+				<span class="box">
+                    <form style="display: inline" th:action="@{/ignore/report/{userReportId}(userReportId=${userReport.getId()})}" method="post">
+                        <button type="submit" class="btn btn-secondary">Ignore Report</button>
+                    </form>
+                </span>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+
+
+<div class="popup" popup-name="popup-1">
+	<div class="popup-content">
+		<h2>Add Report</h2>
+		<a class="close-button" popup-close="popup-1" href="javascript:void(0)">x</a>
+		<div class="content">
+			<form class="storyPopUpForm" action="#" th:action="@{/report/add}" th:object="${report}" method="post">
+				<div class="form-group">
+					<label for="storyTitle">Title</label>
+					<input type="text"  class="form-control" id="storyTitle" th:name="title" th:value="${title}">
+				</div>
+				<div class="form-group">
+					<label for="storyDesc">Description</label>
+					<input type="text"  class="form-control" id="storyDesc" th:name="description" th:value="${description}">
+				</div>
+				<div>
+					<button type="submit" class="btn btn-secondary " th:name="save" >Save</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
+
+<script>
+	$(function() {
+		// Open Popup
+		$('[popup-open]').on('click', function() {
+			var popup_name = $(this).attr('popup-open');
+			$('[popup-name="' + popup_name + '"]').fadeIn(300);
+			alert("clicked open")
+		});
+
+		// Close Popup
+		$('[popup-close]').on('click', function() {
+			var popup_name = $(this).attr('popup-close');
+			$('[popup-name="' + popup_name + '"]').fadeOut(300);
+		});
+	});
+</script>
+
+
+
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -2,6 +2,7 @@ package app.service;
 
 
 import app.exception.BadResourceException;
+import app.model.Report;
 import app.model.Roles;
 import app.model.User;
 import app.repository.RoleRepository;
@@ -9,6 +10,7 @@ import app.repository.UserRepository;
 import app.util.FileUploadUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.mail.SimpleMailMessage;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -192,5 +194,13 @@ public class UserService implements UserDetailsService {
 
         return user;
 
+    }
+
+    public User banUser(Long userId) {
+        Optional<User> fetchReportedUser = userRepository.findById(userId);
+        User user = fetchReportedUser.orElseThrow(() ->
+                new ResourceNotFoundException("User with ID: " + userId+ " doesnt exist"));;
+        user.setActive(false);
+        return userRepository.save(user);
     }
 }

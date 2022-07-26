@@ -17,9 +17,12 @@ public class UserReport {
     @JoinColumn(name = "reported_user", nullable = false)
     private User reportedUser;
 
+    private boolean isIncorrect;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "reportFK", nullable = false)
     private Report report;
+
 
     public Long getId() {
         return id;
@@ -47,5 +50,13 @@ public class UserReport {
 
     public void setReport(Report report) {
         this.report = report;
+    }
+
+    public boolean isIncorrect() {
+        return isIncorrect;
+    }
+
+    public void setIncorrect(boolean incorrect) {
+        isIncorrect = incorrect;
     }
 }

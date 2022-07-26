@@ -2,6 +2,8 @@ package app.controller;
 
 
 import app.model.User;
+import app.model.UserReport;
+import app.service.UserReportService;
 import app.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,16 +18,23 @@ import java.util.Optional;
 public class AdminController {
 
 	private final UserService userService;
+	private final UserReportService userReportService;
 
 	@Autowired
-	public AdminController(UserService userService) {
+	public AdminController(UserService userService, UserReportService userReportService) {
 		this.userService = userService;
+		this.userReportService = userReportService;
 	}
 
-	@RequestMapping(value = "/adminHome")
-	public ModelAndView adminhome(ModelAndView modelAndView) {
-		modelAndView = new ModelAndView("/admin/adminHome");
-		return modelAndView;
+	@GetMapping(value = "/adminHome")
+	public String showTest(Model model) {
+		List<UserReport> userReports = userReportService.getReports();
+		System.out.println(userReports + ", usereportzz");
+		model.addAttribute("userReports", userReports);
+		model.addAttribute("currentUser", userService.getCurrentUser());
+
+
+		return "/admin/adminHome";
 	}
 
 	@GetMapping("/addAdmin")
@@ -61,6 +70,18 @@ public class AdminController {
 	public String updateUser(User user) {
 		userService.updateUser(user);
 		return "redirect:/addAdmin";
+	}
+
+	@PostMapping(value = "/ban/user/{userId}")
+	public String banUser(Model model, @PathVariable("userId") Long userId) {
+		userService.banUser(userId);
+		return "redirect:/adminHome";
+	}
+
+	@PostMapping(value = "/ignore/report/{userReportId}")
+	public String ignoreUserReport(Model model, @PathVariable("userReportId") Long userReportId) {
+		userReportService.ignoreUserReport(userReportId);
+		return "redirect:/adminHome";
 	}
 
 }

@@ -12,7 +12,7 @@ import java.util.List;
 
 @Repository
 public interface RelationshipRepository extends JpaRepository<Relationship, Long> {
-    //gets matches
+    //gets matches, beje per active
     @Query("SELECT r FROM Relationship r WHERE r.userALikesUserB = True AND r.userBLikesUserA = True AND (r.userA.id =:userId OR r.userB.id =:userId)")
     List<Relationship> getMatches(@Param("userId") Long userId);
 
