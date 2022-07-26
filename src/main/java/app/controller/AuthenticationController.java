@@ -1,6 +1,9 @@
 package app.controller;
 
+import app.model.Hobby;
+import app.model.UserReport;
 import app.repository.UserRepository;
+import app.service.HobbyService;
 import com.google.common.collect.ImmutableMap;
 import app.model.User;
 import app.service.UserService;
@@ -20,16 +23,17 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 public class AuthenticationController {
 
     private final UserService userService;
-    private final UserRepository userRepository;
+    private final HobbyService hobbyService;
     @Autowired
-    public AuthenticationController(UserService userService, UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public AuthenticationController(UserService userService, HobbyService hobbyService) {
         this.userService = userService;
+        this.hobbyService = hobbyService;
     }
 
     // LOGIN
@@ -71,14 +75,22 @@ public class AuthenticationController {
             modelAndView.addObject("successMessage", "User is already registered!");
         }
         else {
-            userService.registerUser(user, multipartFile);
+            User regUser = userService.registerUser(user, multipartFile);
+            List<Hobby> hobbies = hobbyService.findAll();
+            System.out.println(regUser + ", reguserr");
+            System.out.println(hobbies + ", hobbies");
+            modelAndView.addObject("registeredUser", regUser);
+            modelAndView.addObject("hobbies", hobbies);
+            modelAndView.setViewName("/user/test");
+            return modelAndView;
 
-            modelAndView.addObject("successMessage", "User is registered successfully!");
+
         }
         modelAndView.addObject("user", new User());
         modelAndView.setViewName("/auth/register");
         return modelAndView;
     }
+
 
     @RequestMapping(value = "/forgotPassword", method = RequestMethod.GET)
     public ModelAndView ResetPasswordPage(ModelAndView modelAndView, User user) {

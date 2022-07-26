@@ -71,8 +71,7 @@ public class UserService implements UserDetailsService {
 
     public User editUserSettings(String name, String surname) {
 
-        String auth = SecurityContextHolder.getContext().getAuthentication().getName();
-        User user = userRepository.findByEmail(auth);
+        User user = getCurrentUser();
         user.setLastName(surname);
         user.setName(name);
         userRepository.save(user);
@@ -107,7 +106,6 @@ public class UserService implements UserDetailsService {
     }
 
     public User registerUser(User user, MultipartFile multipartFile) {
-        System.out.println("USER SERV: " + user);
         user.setResetToken(UUID.randomUUID().toString().substring(0, 8));
         Roles userRoles = roleRepository.findByRole("USER");
         user.setRoles(new HashSet<Roles>(Arrays.asList(userRoles)));
@@ -153,7 +151,6 @@ public class UserService implements UserDetailsService {
                     (entity.getName());
             newEntity.setLastName
                     (entity.getLastName());
-            newEntity.setJobPosition(entity.getJobPosition());
             newEntity = userRepository.save(newEntity);
             return newEntity;
         } else {

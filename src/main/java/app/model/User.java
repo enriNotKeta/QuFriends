@@ -49,10 +49,6 @@ public class User implements UserDetails{
     @Column(name = "username")
     private String username;
 
-    @NotNull(message = "Job Position cannot be empty")
-    @Column(name = "job_position")
-    private String jobPosition;
-
     @Column(name = "reset_token")
     private String resetToken;
 
@@ -127,13 +123,6 @@ public class User implements UserDetails{
         this.roles = roles;
     }
 
-    public String getJobPosition() {
-        return jobPosition;
-    }
-
-    public void setJobPosition(String jobPosition) {
-        this.jobPosition = jobPosition;
-    }
 
     public String getResetToken() {
         return resetToken;

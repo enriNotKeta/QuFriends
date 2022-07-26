@@ -40,12 +40,10 @@ public class UserController {
     @GetMapping("/user-settings")
     public String getUserSettings(Model model) {
 
-        String auth = SecurityContextHolder.getContext().getAuthentication().getName();
-        User user = userService.findByEmail(auth);
+        User user = userService.getCurrentUser();
 
         model.addAttribute("name", user.getName());
         model.addAttribute("surname", user.getLastName());
-        model.addAttribute("jobPosition", user.getJobPosition());
         model.addAttribute("email", user.getEmail());
 
         return "/user/user-settings";
@@ -63,11 +61,9 @@ public class UserController {
     @RequestMapping(value = "/user-settings", params = "reset")
     public String resetUserSettings(Model model) {
 
-        String auth = SecurityContextHolder.getContext().getAuthentication().getName();
-        User user = userService.findByEmail(auth);
+        User user = userService.getCurrentUser();
         model.addAttribute("name", user.getName());
         model.addAttribute("surname", user.getLastName());
-        model.addAttribute("jobPosition", user.getJobPosition());
         model.addAttribute("email", user.getEmail());
 
         return "/user/user-settings";
@@ -76,8 +72,7 @@ public class UserController {
     @GetMapping("/user-settings/changePassword")
     public String getUserPassword(Model model) {
 
-        String auth = SecurityContextHolder.getContext().getAuthentication().getName();
-        User user = userService.findByEmail(auth);
+        User user = userService.getCurrentUser();
         model.addAttribute("user", user);
 
         return "/user/changePasswordUser";
