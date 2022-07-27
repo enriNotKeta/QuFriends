@@ -40,7 +40,7 @@ public class RecommendationController {
             throw new RuntimeException(e);
         }
 
-        recommendationService.displayRecommendations(3, recommendedItems);
+        recommendationService.displayRecommendations(2, recommendedItems);
 
         model.addAttribute("user", userService.getCurrentUser());
         return "user/user-dashboard";

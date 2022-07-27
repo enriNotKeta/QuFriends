@@ -21,7 +21,6 @@ import java.util.List;
 
 @Service
 public class RecommendationService {
-//    @Autowired
     private DataSource dataSource;
 
     @Autowired

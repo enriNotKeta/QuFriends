@@ -200,4 +200,9 @@ public class UserService implements UserDetailsService {
         user.setActive(false);
         return userRepository.save(user);
     }
+
+    public Set<User> getUsersToRecommend() {
+        Set<User> users = userRepository.getUsersToRecommend(getCurrentUser().getId());
+        return users;
+    }
 }
