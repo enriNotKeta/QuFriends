@@ -75,13 +75,8 @@ public class AuthenticationController {
             modelAndView.addObject("successMessage", "User is already registered!");
         }
         else {
-            User regUser = userService.registerUser(user, multipartFile);
-            List<Hobby> hobbies = hobbyService.findAll();
-            System.out.println(regUser + ", reguserr");
-            System.out.println(hobbies + ", hobbies");
-            modelAndView.addObject("registeredUser", regUser);
-            modelAndView.addObject("hobbies", hobbies);
-            modelAndView.setViewName("/user/test");
+            userService.registerUser(user, multipartFile);
+            modelAndView.setViewName("/auth/login");
             return modelAndView;
 
 

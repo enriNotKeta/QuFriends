@@ -11,4 +11,6 @@ import java.util.List;
 @Repository
 public interface UserHobbyRepository extends JpaRepository<UserHobby, Long> {
     List<UserHobby> findAllByUserId(Long userId);
+
+    UserHobby findByUserIdAndHobbyId(Long userId, Long hobbyId);
 }

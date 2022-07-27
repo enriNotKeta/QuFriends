@@ -1,14 +1,12 @@
 package app.controller;
 
+import app.model.Hobby;
 import app.model.Report;
 import app.model.User;
 import app.model.UserReport;
 import app.repository.ReportRepository;
 import app.repository.UserReportRepository;
-import app.service.RelationshipService;
-import app.service.ReportService;
-import app.service.UserReportService;
-import app.service.UserService;
+import app.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Controller;
@@ -26,14 +24,16 @@ public class ReportController {
     private final UserService userService;
     private final ReportService reportService;
     private final UserReportService userReportService;
+    private final HobbyService hobbyService;
 
 
     @Autowired
     public ReportController(ReportService reportService, UserService userService,
-                            UserReportService userReportService) {
+                            UserReportService userReportService, HobbyService hobbyService) {
         this.reportService = reportService;
         this.userService = userService;
         this.userReportService = userReportService;
+        this.hobbyService = hobbyService;
     }
 
 
@@ -83,5 +83,15 @@ public class ReportController {
         return "redirect:/adminHome";
 
     }
+
+    @GetMapping(value = "/hobbytest")
+    public String showHobbyTest(Model model) {
+        List<Hobby> hobbies = hobbyService.findAll();
+        model.addAttribute("hobbies", hobbies);
+
+        return "/user/test";
+    }
+
+
 
 }
