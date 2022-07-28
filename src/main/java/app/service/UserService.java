@@ -205,4 +205,9 @@ public class UserService implements UserDetailsService {
         Set<User> users = userRepository.getUsersToRecommend(getCurrentUser().getId());
         return users;
     }
+
+    public List<User> getRequestingUsers() {
+        List<User> users = userRepository.getRequestingUsers(getCurrentUser().getId());
+        return users;
+    }
 }

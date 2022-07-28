@@ -2,6 +2,8 @@ package app.controller;
 
 
 import app.model.User;
+import app.service.RelationshipService;
+import app.service.SuggesterService;
 import app.service.UserService;
 import com.google.common.collect.ImmutableMap;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,17 +23,27 @@ public class UserController {
 
     private final UserService userService;
     private final BCryptPasswordEncoder encoder;
+    private final RelationshipService relationshipService;
+    private final SuggesterService suggesterService;
+
 
     @Autowired
-    public UserController(UserService userService, BCryptPasswordEncoder encoder) {
+    public UserController(UserService userService, BCryptPasswordEncoder encoder, RelationshipService relationshipService
+                            ,SuggesterService suggesterService) {
         this.userService = userService;
         this.encoder = encoder;
+        this.relationshipService = relationshipService;
+        this.suggesterService = suggesterService;
+
     }
+
 
     @GetMapping(value = "/home")
     public String showTest(Model model) {
-
-        model.addAttribute("user", userService.getCurrentUser());
+        List<User> users = relationshipService.getMatches(userService.getCurrentUser().getId());
+        model.addAttribute("matchedUsers", users);
+        model.addAttribute("suggestedUsers", suggesterService.getUsersToRecommend());
+        model.addAttribute("requestingUsers",userService.getRequestingUsers());
 
         return "/user/user-dashboard";
     }

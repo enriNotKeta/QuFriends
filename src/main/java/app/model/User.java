@@ -4,6 +4,7 @@ package app.model;
 import lombok.Builder;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -55,6 +56,7 @@ public class User implements UserDetails{
     @Column(nullable = true, length = 64)
     private String photos;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "bdayDate")
     private LocalDate bdayDate;
 

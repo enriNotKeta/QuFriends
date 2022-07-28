@@ -1,5 +1,6 @@
 package app.controller;
 
+import app.exception.BadResourceException;
 import app.exception.ResourceAlreadyExistsException;
 import app.model.User;
 import app.service.RelationshipService;
@@ -36,16 +37,6 @@ public class RelationshipController {
         return "/user/matches";
     }
 
-//    @GetMapping(value = "/suggested")
-//    public String showSuggested(Model model) {
-//        System.out.println(userService.getCurrentUser()+ ", currentUser");
-//        List<User> users = relationshipService.getMatches(userService.getCurrentUser().getId());
-//        model.addAttribute("currentUser", userService.getCurrentUser());
-//        model.addAttribute("users", users);
-//        System.out.println("usersMatqq " + users.size());
-//
-//        return "/user/matches";
-//    }
 
     @PostMapping(value = "/umatch/user/{userId}")
     public String umatchUsers(Model model, @PathVariable("userId") Long userId) {
@@ -68,8 +59,6 @@ public class RelationshipController {
         }
 
         return "redirect:/home";
-
-
     }
 
     @PostMapping(value = "/request/user/{userId}")
@@ -84,5 +73,30 @@ public class RelationshipController {
         return "redirect:/suggested";
     }
 
+
+    @GetMapping(value = "/requests")
+    public String showRequests(Model model) {
+        System.out.println(userService.getCurrentUser()+ ", currentUser");
+        List<User> users = userService.getRequestingUsers();
+        model.addAttribute("currentUser", userService.getCurrentUser());
+        model.addAttribute("users", users);
+        System.out.println("usersMatqq " + users.size());
+
+        return "/user/requests";
+    }
+
+
+    @PostMapping(value = "/request/accept/user/{userId}")
+    public String blockUser(Model model, @PathVariable("userId") Long userId) {
+        System.out.println("usera: " + userId);
+        try {
+            relationshipService.acceptRequest(userId);
+        } catch (BadResourceException e) {
+            String errorMessage = e.getMessage();
+            model.addAttribute("errorMessage", errorMessage);
+        }
+
+        return "redirect:/requests";
+    }
 
 }

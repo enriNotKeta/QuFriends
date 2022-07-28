@@ -53,7 +53,7 @@ public class RelationshipService {
 
     public Relationship umatchUsers(Long userIdToUnmatch) throws ResourceNotFoundException {
         User userToUnmatch = userService.getUserById(userIdToUnmatch);
-        Relationship relationship = relationshipRepository.findByUserAAndUserB(userToUnmatch, userService.getCurrentUser());
+        Relationship relationship = relationshipRepository.findByUserAAndUserB(userService.getCurrentUser(), userToUnmatch);
         if (relationship != null) {
             System.out.println(relationship.getUserA().getEmail() + ", relasss");
 
@@ -62,7 +62,7 @@ public class RelationshipService {
             relationship.setUserBLikesUserA(false);
         }
         else {
-            relationship = relationshipRepository.findByUserBAndUserA(userToUnmatch, userService.getCurrentUser());
+            relationship = relationshipRepository.findByUserBAndUserA(userService.getCurrentUser(), userToUnmatch);
 
             if (relationship == null) {
                 throw new ResourceNotFoundException("Relationship of users with id: " + userIdToUnmatch + ", "
@@ -82,7 +82,7 @@ public class RelationshipService {
 
     public Relationship blockUser(Long userIdToUnmatch) throws ResourceNotFoundException {
         User userToBlock = userService.getUserById(userIdToUnmatch);
-        Relationship relationship = relationshipRepository.findByUserAAndUserB(userToBlock, userService.getCurrentUser());
+        Relationship relationship = relationshipRepository.findByUserAAndUserB(userService.getCurrentUser(), userToBlock);
         if (relationship != null) {
             System.out.println(relationship.getUserA().getEmail() + ", relasss");
 
@@ -91,12 +91,12 @@ public class RelationshipService {
             relationship.setUserBLikesUserA(false);
         }
         else {
-            relationship = relationshipRepository.findByUserBAndUserA(userToBlock, userService.getCurrentUser());
+            relationship = relationshipRepository.findByUserBAndUserA(userService.getCurrentUser(), userToBlock);
 
             if (relationship == null) {
                 relationship = new Relationship();
-                relationship.setUserA(userService.getCurrentUser());
-                relationship.setUserB(userToBlock);
+                relationship.setUserB(userService.getCurrentUser());
+                relationship.setUserA(userToBlock);
             }
 
             relationship.setUserBBlocksUserA(true);
@@ -126,6 +126,7 @@ public class RelationshipService {
             }
         }
 
+        //userA will b the requester
         relationship = new Relationship();
         relationship.setUserA(userService.getCurrentUser());
         relationship.setUserB(userToRequest);
@@ -134,6 +135,19 @@ public class RelationshipService {
         return relationship;
     }
 
+
+    public Relationship acceptRequest(Long userIdRequester) throws BadResourceException {
+        User userRequester = userService.getUserById(userIdRequester);
+        Relationship relationship = relationshipRepository.findByUserAAndUserB(userRequester, userService.getCurrentUser());
+
+        if (relationship == null) {
+            throw new BadResourceException("Relationship of users with id: " + userIdRequester + ", "
+                    + userService.getCurrentUser().getId() + " doesnt exist");
+        }
+        relationship.setUserBLikesUserA(true);
+        relationshipRepository.save(relationship);
+        return relationship;
+    }
 
 
 

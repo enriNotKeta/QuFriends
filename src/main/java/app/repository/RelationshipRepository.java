@@ -19,8 +19,6 @@ public interface RelationshipRepository extends JpaRepository<Relationship, Long
     Relationship findByUserAAndUserB(User userToUnmatch, User currentUser);
 
     Relationship findByUserBAndUserA(User userToUnmatch, User currentUser);
-    @Query("SELECT r FROM Relationship r WHERE (r.userA.id =:userId AND r.userALikesUserB = True AND r.userBLikesUserA = False) OR " +
-            "(r.userB.id =:userId AND r.userBLikesUserA = True AND r.userALikesUserB = False)")
-    Relationship getRequestingUsers(Long userId);
+
 
 }

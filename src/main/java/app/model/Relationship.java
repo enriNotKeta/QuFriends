@@ -1,6 +1,7 @@
 package app.model;
 
 import lombok.Builder;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.List;
@@ -27,6 +28,11 @@ public class Relationship {
     private Boolean userABlocksUserB = false;
     @Builder.Default
     private Boolean userBBlocksUserA = false;
+
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid")
+    @Column(columnDefinition = "CHAR(32)")
+    private String chatRoomId;
 
     @ManyToOne(fetch = FetchType.LAZY) //join cols?
     @JoinColumn(name = "userA", nullable = true)

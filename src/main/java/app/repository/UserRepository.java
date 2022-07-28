@@ -25,4 +25,8 @@ public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificat
     @Query(value = "SELECT u FROM User u  WHERE u.id <>:userId AND u.id NOT IN (SELECT r.userA FROM Relationship r WHERE r.userB.id =:userId) " +
                         "AND NOT u.id IN (SELECT r.userB FROM Relationship r WHERE r.userA.id =:userId)")
     public Set<User> getUsersToRecommend(Long userId);
+
+    @Query(value = "SELECT u FROM User u  WHERE u.id IN (SELECT r.userA FROM Relationship r WHERE r.userB.id =:userId " +
+                "AND r.userALikesUserB = True AND r.userBLikesUserA = False)")
+    List<User> getRequestingUsers(Long userId);
 }
