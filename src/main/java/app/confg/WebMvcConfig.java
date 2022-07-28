@@ -28,6 +28,7 @@ public class WebMvcConfig implements WebMvcConfigurer{
                 .addResourceLocations("/webjars/")
                 .resourceChain(false);
         registry.setOrder(1);
+
     }
 
     private void exposeDirectory(String dirName, ResourceHandlerRegistry registry) {

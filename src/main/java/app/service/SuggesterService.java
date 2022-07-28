@@ -1,5 +1,6 @@
 package app.service;
 
+import app.model.Hobby;
 import app.model.User;
 import app.model.UserHobby;
 import org.apache.commons.math3.stat.correlation.PearsonsCorrelation;
@@ -15,7 +16,7 @@ import java.util.stream.Stream;
 public class SuggesterService {
     private final UserService userService;
     private final UserHobbyService userHobbyService;
-    private final int HOBBY_COUNT = 4;
+    private final int HOBBY_COUNT = 10;
     private final int LIMIT_USERS_NUMBER = 40;
 
     @Autowired
@@ -52,7 +53,7 @@ public class SuggesterService {
 
 
     public HashMap<User,Double> getHobbyRatingsOfOtherUsers(double[] ratingOfCurrUser) {
-        Set<User> users = userService.getUsersToRecommend();
+        Set<User> users = userService.getUsersWithHobbiesToRecommend();
         HashMap<User,Double> mapSimilarityVals =new HashMap<User,Double>();//Creating HashMap
 
         for (User user : users) {
@@ -72,7 +73,7 @@ public class SuggesterService {
     }
 
     public List<User> getSortedSuggestedUsers(HashMap<User,Double> mapSimilarityVals) {
-        Map<User,Double> topTen =
+        Map<User,Double> topMatches =
                 mapSimilarityVals.entrySet().stream()
                         .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
                         .limit(LIMIT_USERS_NUMBER)
@@ -80,14 +81,15 @@ public class SuggesterService {
                                 Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
 
         List<User> suggestedUsersOrdered = new ArrayList<>();
-        for (var entry : topTen.entrySet()) {
+        for (var entry : topMatches.entrySet()) {
             System.out.println(entry.getKey().getUsername() + "/" + entry.getValue());
             suggestedUsersOrdered.add(entry.getKey());
         }
 
-        for (User user : suggestedUsersOrdered) {
-            System.out.println(user.getUsername() + ", user");
+        for (User u : suggestedUsersOrdered) {
+            System.out.println(u.getUsername() + ", unordered");
         }
+
         return suggestedUsersOrdered;
     }
 

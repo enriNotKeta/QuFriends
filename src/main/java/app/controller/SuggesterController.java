@@ -1,11 +1,9 @@
 package app.controller;
 
+import app.model.Hobby;
 import app.model.Report;
 import app.model.User;
-import app.service.ReportService;
-import app.service.SuggesterService;
-import app.service.UserReportService;
-import app.service.UserService;
+import app.service.*;
 import org.apache.mahout.cf.taste.recommender.RecommendedItem;
 import org.apache.mahout.cf.taste.recommender.Recommender;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,11 +18,15 @@ import java.util.List;
 public class SuggesterController {
     private final UserService userService;
     private final SuggesterService suggesterService;
+    private final HobbyService hobbyService;
+
 
     @Autowired
-    public SuggesterController(SuggesterService suggesterService, UserService userService) {
+    public SuggesterController(SuggesterService suggesterService, UserService userService,  HobbyService hobbyService) {
         this.suggesterService = suggesterService;
         this.userService = userService;
+        this.hobbyService = hobbyService;
+
     }
 
     @GetMapping(value = "/suggested")
@@ -33,6 +35,13 @@ public class SuggesterController {
         model.addAttribute("currentUser", userService.getCurrentUser());
 
         return "user/suggested";
+    }
+
+    @GetMapping(value = "/hobbies")
+    public String showHobbies(Model model) {
+        List<Hobby> hobbies = hobbyService.findAll();
+        model.addAttribute("hobbies", hobbies);
+        return "/user/hobbies";
     }
 
 

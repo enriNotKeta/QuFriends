@@ -1,8 +1,5 @@
 package app.controller;
 
-import app.model.Hobby;
-import app.model.UserReport;
-import app.repository.UserRepository;
 import app.service.HobbyService;
 import com.google.common.collect.ImmutableMap;
 import app.model.User;
@@ -29,11 +26,9 @@ import java.util.List;
 public class AuthenticationController {
 
     private final UserService userService;
-    private final HobbyService hobbyService;
     @Autowired
-    public AuthenticationController(UserService userService, HobbyService hobbyService) {
+    public AuthenticationController(UserService userService) {
         this.userService = userService;
-        this.hobbyService = hobbyService;
     }
 
     // LOGIN

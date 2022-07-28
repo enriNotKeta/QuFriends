@@ -37,9 +37,8 @@ public class UserController {
 
     }
 
-
     @GetMapping(value = "/home")
-    public String showTest(Model model) {
+    public String showHome(Model model) {
         List<User> users = relationshipService.getMatches(userService.getCurrentUser().getId());
         model.addAttribute("matchedUsers", users);
         model.addAttribute("suggestedUsers", suggesterService.getUsersToRecommend());
