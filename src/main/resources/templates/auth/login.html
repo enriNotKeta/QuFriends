@@ -6,7 +6,7 @@
 <title>Login</title>
 </head>
 <body>
-	<div class="container-fluid auth-container background">
+	<div class="container-fluid auth-container background" style="border: 1px solid black; margin: 5% auto; width: 30%;">
 		<div class="auth-form login-form">
 			<form th:action="@{/login}" method="POST" class="form-signin">
 
@@ -29,7 +29,7 @@
 				</div>
 				<input type="submit" class="btn btn-secondary btn-block btn-lg"
 					value="Login"><br>
-				<br> <a href="/forgotPassword">Register instead?</a>
+				<br> <a href="/register">Register instead?</a>
 			</form>
 		</div>
 	</div>
