@@ -149,6 +149,24 @@ public class RelationshipService {
         return relationship;
     }
 
+    public Relationship findByUserAAndUserB(Long userAId, Long userBId){
+        User userA = userService.getUserById(userAId);
+        User userB = userService.getUserById(userBId);
+        Relationship relationship = relationshipRepository.findByUserAAndUserB(userA, userB);
+        return relationship;
+    }
+
+    public Relationship findByUserBAndUserA(Long userAId, Long userBId) {
+        User userA = userService.getUserById(userAId);
+        User userB = userService.getUserById(userBId);
+        Relationship relationship = relationshipRepository.findByUserBAndUserA(userA, userB);
+
+        return relationship;
+    }
+
+
+
+
 
 
 

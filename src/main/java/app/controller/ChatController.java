@@ -1,10 +1,8 @@
 package app.controller;
 
 import app.model.ChatMessage;
-import app.model.UserReport;
-import app.service.HobbyService;
-import app.service.ReportService;
-import app.service.UserReportService;
+import app.model.Relationship;
+import app.service.RelationshipService;
 import app.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,9 +16,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-
-import java.util.List;
-
 import static java.lang.String.format;
 
 @Controller
@@ -28,10 +23,14 @@ public class ChatController {
 
     private static final Logger logger = LoggerFactory.getLogger(WebSocketEventListener.class);
     private final UserService userService;
+    private final RelationshipService relationshipService;
+
 
     @Autowired
-    public ChatController(UserService userService){
+    public ChatController(UserService userService, RelationshipService relationshipService){
         this.userService = userService;
+        this.relationshipService = relationshipService;
+
     }
 
     @Autowired
@@ -58,10 +57,25 @@ public class ChatController {
 
     @GetMapping(value = "/chat/{chatterId}/{chattedId}")
     public String showChat(Model model, @PathVariable long chatterId, @PathVariable long chattedId) {
-        //check if one of the current users is vars
-        //check if rel exists and its a match
-        model.addAttribute("chatterUserName", userService.getCurrentUser().getUsername());
-        model.addAttribute("roomId", (userService.getCurrentUser().getId()+"x"+chattedId));
-        return "index";
+        if (userService.getCurrentUser().getId() == chatterId || userService.getCurrentUser().getId() == chattedId) {
+            System.out.println(userService.getCurrentUser().getUsername() + ", usernameCurrUser");
+
+            Relationship relationship1 = relationshipService.findByUserAAndUserB(chatterId, chattedId);
+            Relationship relationship2 = relationshipService.findByUserBAndUserA(chatterId, chattedId);
+            if (relationship1 != null || relationship2 != null) {
+                model.addAttribute("chatterUserName", userService.getCurrentUser().getUsername());
+
+                if (relationship1 != null) {
+                    model.addAttribute("roomId", relationship1.getChatRoomId());
+                }
+                else if (relationship2 != null){
+                    model.addAttribute("roomId", relationship2.getChatRoomId());
+                }
+                return "index";
+
+            }
+        }
+
+        return "redirect:/home";
     }
 }

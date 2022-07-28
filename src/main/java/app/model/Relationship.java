@@ -5,6 +5,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Table(name = "relationship")
@@ -29,9 +30,6 @@ public class Relationship {
     @Builder.Default
     private Boolean userBBlocksUserA = false;
 
-    @GeneratedValue(generator = "uuid")
-    @GenericGenerator(name = "uuid", strategy = "uuid")
-    @Column(columnDefinition = "CHAR(32)")
     private String chatRoomId;
 
     @ManyToOne(fetch = FetchType.LAZY) //join cols?
@@ -110,5 +108,18 @@ public class Relationship {
         this.userB = userB;
     }
 
+    @PrePersist
+    public void initializeUUID() {
+        if (chatRoomId == null) {
+            chatRoomId = UUID.randomUUID().toString();
+        }
+    }
 
+    public String getChatRoomId() {
+        return chatRoomId;
+    }
+
+    public void setChatRoomId(String chatRoomId) {
+        this.chatRoomId = chatRoomId;
+    }
 }
