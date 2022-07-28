@@ -1,5 +1,7 @@
 package app.service;
 
+import app.exception.BadResourceException;
+import app.exception.ResourceAlreadyExistsException;
 import app.model.Relationship;
 import app.model.User;
 import app.repository.RelationshipRepository;
@@ -30,6 +32,7 @@ public class RelationshipService {
         Long currentUserId = userService.getCurrentUser().getId();
 
         for (Relationship relationship : relationships) {
+            //ordered, no dubs, not itself, could b done w query
             if (!usersMatchedWith.contains(relationship.getUserA()) && !usersMatchedWith.contains(relationship.getUserB())) {
                 if (currentUserId != relationship.getUserA().getId()) {
                     usersMatchedWith.add(relationship.getUserA());
@@ -91,10 +94,10 @@ public class RelationshipService {
             relationship = relationshipRepository.findByUserBAndUserA(userToBlock, userService.getCurrentUser());
 
             if (relationship == null) {
-                throw new ResourceNotFoundException("Relationship of users with id: " + userIdToUnmatch + ", "
-                        + userService.getCurrentUser().getId() + " not found");
+                relationship = new Relationship();
+                relationship.setUserA(userService.getCurrentUser());
+                relationship.setUserB(userToBlock);
             }
-            System.out.println(relationship.getUserB().getEmail() + ", relasss");
 
             relationship.setUserBBlocksUserA(true);
             relationship.setUserALikesUserB(false);
@@ -104,6 +107,34 @@ public class RelationshipService {
         relationshipRepository.save(relationship);
         return relationship;
     }
+
+
+    public Relationship requestUser(Long userIdToRequest) throws ResourceAlreadyExistsException {
+        User userToRequest = userService.getUserById(userIdToRequest);
+        Relationship relationship = relationshipRepository.findByUserAAndUserB(userToRequest, userService.getCurrentUser());
+
+        if (relationship != null) {
+            throw new ResourceAlreadyExistsException("Relationship of users with id: " + userIdToRequest + ", "
+                    + userService.getCurrentUser().getId() + " already exists");
+        }
+        else {
+            relationship = relationshipRepository.findByUserBAndUserA(userToRequest, userService.getCurrentUser());
+
+            if (relationship != null) {
+                throw new ResourceAlreadyExistsException("Relationship of users with id: " + userService.getCurrentUser().getId() + ", "
+                        + userIdToRequest + " already exists");
+            }
+        }
+
+        relationship = new Relationship();
+        relationship.setUserA(userService.getCurrentUser());
+        relationship.setUserB(userToRequest);
+        relationship.setUserALikesUserB(true);
+        relationshipRepository.save(relationship);
+        return relationship;
+    }
+
+
 
 
 

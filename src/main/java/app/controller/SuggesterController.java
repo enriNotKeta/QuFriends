@@ -27,11 +27,12 @@ public class SuggesterController {
         this.userService = userService;
     }
 
-    @GetMapping(value = "/suggest")
+    @GetMapping(value = "/suggested")
     public String showSuggestedUsers(Model model) {
-        suggesterService.getUsersToRecommend();
-        System.out.println("suggestinggg");
-        return "user/user-dashboard";
+        model.addAttribute("users", suggesterService.getUsersToRecommend());
+        model.addAttribute("currentUser", userService.getCurrentUser());
+
+        return "user/suggested";
     }
 
 

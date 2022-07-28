@@ -1,5 +1,7 @@
 package app.model;
 
+import lombok.Builder;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -9,18 +11,22 @@ public class Relationship {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @Builder.Default
+    private Boolean userALikesUserB = false;
 
-    private Boolean userALikesUserB;
+    @Builder.Default
+    private Boolean userBLikesUserA = false;
 
-    private Boolean userBLikesUserA;
+    @Builder.Default
+    private Boolean userAUnmatchesUserB = false;
 
-    private Boolean userAUnmatchesUserB;
+    @Builder.Default
+    private Boolean userBUnmatchesUserA = false;
 
-    private Boolean userBUnmatchesUserA;
-
-    private Boolean userABlocksUserB;
-
-    private Boolean userBBlocksUserA;
+    @Builder.Default
+    private Boolean userABlocksUserB = false;
+    @Builder.Default
+    private Boolean userBBlocksUserA = false;
 
     @ManyToOne(fetch = FetchType.LAZY) //join cols?
     @JoinColumn(name = "userA", nullable = true)

@@ -16,7 +16,7 @@ public class SuggesterService {
     private final UserService userService;
     private final UserHobbyService userHobbyService;
     private final int HOBBY_COUNT = 4;
-    private final int LIMIT_USERS_NUMBER = 30;
+    private final int LIMIT_USERS_NUMBER = 40;
 
     @Autowired
     public SuggesterService(UserService userService, UserHobbyService userHobbyService) {

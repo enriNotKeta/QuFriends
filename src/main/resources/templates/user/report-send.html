@@ -46,7 +46,7 @@
             </div>
 
             <div class="card-body">
-                <form action="#" th:object="${userreport}" th:action="@{/user/{userId}/report(userId=${userId})}" method="post">
+                <form action="#" th:object="${userreport}" th:action="@{/report/user/{userId}(userId=${userId})}" method="post">
                     <div class="form-group">
                         <label class="col-md-4 control-label" for="reportid" style="color: black;">Reasons</label>
                             <div id="reportid" th:each="report: ${reports}">

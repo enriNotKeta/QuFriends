@@ -1,5 +1,6 @@
 package app.controller;
 
+import app.exception.ResourceAlreadyExistsException;
 import app.model.User;
 import app.service.RelationshipService;
 import app.service.UserService;
@@ -35,6 +36,17 @@ public class RelationshipController {
         return "/user/matches";
     }
 
+//    @GetMapping(value = "/suggested")
+//    public String showSuggested(Model model) {
+//        System.out.println(userService.getCurrentUser()+ ", currentUser");
+//        List<User> users = relationshipService.getMatches(userService.getCurrentUser().getId());
+//        model.addAttribute("currentUser", userService.getCurrentUser());
+//        model.addAttribute("users", users);
+//        System.out.println("usersMatqq " + users.size());
+//
+//        return "/user/matches";
+//    }
+
     @PostMapping(value = "/umatch/user/{userId}")
     public String umatchUsers(Model model, @PathVariable("userId") Long userId) {
         System.out.println("usera: " + userId);
@@ -42,11 +54,34 @@ public class RelationshipController {
         return "redirect:/matches";
     }
 
-    @PostMapping(value = "/block/user/{userId}")
-    public String blockUser(Model model, @PathVariable("userId") Long userId) {
+    @PostMapping(value = "/block/user/{userId}/{location}")
+    public String blockUser(Model model, @PathVariable("userId") Long userId, @PathVariable("location") String location) {
         System.out.println("usera: " + userId);
         relationshipService.blockUser(userId);
-        return "redirect:/matches";
+
+        if (location.equals("suggested")) {
+            return "redirect:/suggested";
+        } else if (location.equals("matches")) {
+            return "redirect:/matches";
+        }else if (location.equals("requests")) {
+            return "redirect:/requests";
+        }
+
+        return "redirect:/home";
+
+
+    }
+
+    @PostMapping(value = "/request/user/{userId}")
+    public String requestUser(Model model, @PathVariable("userId") Long userId) {
+        System.out.println("usera: " + userId);
+        try {
+            relationshipService.requestUser(userId);
+        } catch (ResourceAlreadyExistsException e) {
+            String errorMessage = e.getMessage();
+            model.addAttribute("errorMessage", errorMessage);
+        }
+        return "redirect:/suggested";
     }
 
 

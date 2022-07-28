@@ -37,7 +37,7 @@ public class ReportController {
     }
 
 
-    @GetMapping(value = "/user/{userId}/report")
+    @GetMapping(value = "/report/user/{userId}")
     public String showReport(Model model, @PathVariable long userId) {
         List<Report> reports = reportService.findAll();
         UserReport userReport = new UserReport();
@@ -46,10 +46,11 @@ public class ReportController {
         model.addAttribute("userreport", userReport);
         model.addAttribute("userId", userId);
 
+
         return "/user/report-send";
     }
 
-    @PostMapping(value = "/user/{userId}/report")
+    @PostMapping(value = "/report/user/{userId}")
     public String showReport(Model model, @ModelAttribute("userreport") UserReport userreport, @PathVariable long userId) {
         //fixed coz issues w thymeleaf
         Report report  = reportService.findById(1L);
@@ -57,7 +58,8 @@ public class ReportController {
 
         try {
             UserReport newUserReport = userReportService.save(userreport, userId);
-            return "redirect:/matches";
+            return "redirect:/home";
+
         } catch (Exception ex) {
             String errorMessage = ex.getMessage();
             model.addAttribute("errorMessage", errorMessage);
@@ -83,15 +85,6 @@ public class ReportController {
         return "redirect:/adminHome";
 
     }
-
-    @GetMapping(value = "/hobbytest")
-    public String showHobbyTest(Model model) {
-        List<Hobby> hobbies = hobbyService.findAll();
-        model.addAttribute("hobbies", hobbies);
-
-        return "/user/test";
-    }
-
 
 
 }
