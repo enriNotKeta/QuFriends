@@ -89,7 +89,6 @@ public class UserController {
         return "/user/changePasswordUser";
     }
 
-    // SAVE USER PASSWORD
     @PostMapping("user-changePassword")
     public ModelAndView saveUserPassword(User user, Model model, @RequestParam("oldPassword") String oldPassword,
                                          @RequestParam("newPassword") String newPassword,

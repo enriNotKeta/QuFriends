@@ -39,7 +39,9 @@ public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificat
                     "(SELECT user_role.user_id from user_role WHERE user_role.role_id !=2)", nativeQuery = true)
     List<User> getAdminUsers();
 
-    @Query(value = "SELECT u FROM User u  WHERE u.id IN (SELECT r.userA FROM Relationship r WHERE r.userB.id =:userId " +
-            "AND r.userALikesUserB = True AND r.userBLikesUserA = False)")
+    @Query(value = "SELECT u FROM User u  WHERE u IN (SELECT r.userA FROM Relationship r WHERE r.userB.id =:userId " +
+            "AND r.userALikesUserB = True AND r.userBLikesUserA = False)" +
+            "OR u IN (SELECT r.userB FROM Relationship r WHERE r.userA.id =:userId " +
+            "AND r.userBLikesUserA = True AND r.userALikesUserB = False)")
     List<User> getRequestingUsers(Long userId);
 }

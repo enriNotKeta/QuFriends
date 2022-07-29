@@ -28,11 +28,9 @@ public class RelationshipController {
 
     @GetMapping(value = "/matches")
     public String showMatches(Model model) {
-        System.out.println(userService.getCurrentUser()+ ", currentUser");
         List<User> users = relationshipService.getMatches(userService.getCurrentUser().getId());
         model.addAttribute("currentUser", userService.getCurrentUser());
         model.addAttribute("users", users);
-        System.out.println("usersMatqq " + users.size());
 
         return "/user/matches";
     }
@@ -40,14 +38,12 @@ public class RelationshipController {
 
     @PostMapping(value = "/umatch/user/{userId}")
     public String umatchUsers(Model model, @PathVariable("userId") Long userId) {
-        System.out.println("usera: " + userId);
         relationshipService.umatchUsers(userId);
         return "redirect:/matches";
     }
 
     @PostMapping(value = "/block/user/{userId}/{location}")
     public String blockUser(Model model, @PathVariable("userId") Long userId, @PathVariable("location") String location) {
-        System.out.println("usera: " + userId);
         relationshipService.blockUser(userId);
 
         if (location.equals("suggested")) {
@@ -63,7 +59,6 @@ public class RelationshipController {
 
     @PostMapping(value = "/request/user/{userId}")
     public String requestUser(Model model, @PathVariable("userId") Long userId) {
-        System.out.println("usera: " + userId);
         try {
             relationshipService.requestUser(userId);
         } catch (ResourceAlreadyExistsException e) {
@@ -76,11 +71,9 @@ public class RelationshipController {
 
     @GetMapping(value = "/requests")
     public String showRequests(Model model) {
-        System.out.println(userService.getCurrentUser()+ ", currentUser");
         List<User> users = userService.getRequestingUsers();
         model.addAttribute("currentUser", userService.getCurrentUser());
         model.addAttribute("users", users);
-        System.out.println("usersMatqq " + users.size());
 
         return "/user/requests";
     }
@@ -88,7 +81,6 @@ public class RelationshipController {
 
     @PostMapping(value = "/request/accept/user/{userId}")
     public String blockUser(Model model, @PathVariable("userId") Long userId) {
-        System.out.println("usera: " + userId);
         try {
             relationshipService.acceptRequest(userId);
         } catch (BadResourceException e) {

@@ -58,7 +58,6 @@ public class ChatController {
     @GetMapping(value = "/chat/{chatterId}/{chattedId}")
     public String showChat(Model model, @PathVariable long chatterId, @PathVariable long chattedId) {
         if (userService.getCurrentUser().getId() == chatterId || userService.getCurrentUser().getId() == chattedId) {
-            System.out.println(userService.getCurrentUser().getUsername() + ", usernameCurrUser");
 
             Relationship relationship1 = relationshipService.findByUserAAndUserB(chatterId, chattedId);
             Relationship relationship2 = relationshipService.findByUserBAndUserA(chatterId, chattedId);

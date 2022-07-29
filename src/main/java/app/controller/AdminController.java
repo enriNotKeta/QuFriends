@@ -12,13 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
-
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,7 +30,6 @@ public class AdminController {
 	@GetMapping(value = "/adminHome")
 	public String showTest(Model model) {
 		List<UserReport> userReports = userReportService.getReports();
-		System.out.println(userReports + ", usereportzz");
 		model.addAttribute("userReports", userReports);
 		model.addAttribute("currentUser", userService.getCurrentUser());
 

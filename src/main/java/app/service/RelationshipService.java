@@ -27,7 +27,6 @@ public class RelationshipService {
 
     public List<User> getMatches(Long userId) {
         List<Relationship> relationships = relationshipRepository.getMatches(userId);
-        System.out.println("rels like " + relationships);
         List<User> usersMatchedWith = new ArrayList<>();
         Long currentUserId = userService.getCurrentUser().getId();
 
@@ -55,7 +54,6 @@ public class RelationshipService {
         User userToUnmatch = userService.getUserById(userIdToUnmatch);
         Relationship relationship = relationshipRepository.findByUserAAndUserB(userService.getCurrentUser(), userToUnmatch);
         if (relationship != null) {
-            System.out.println(relationship.getUserA().getEmail() + ", relasss");
 
             relationship.setUserAUnmatchesUserB(true);
             relationship.setUserALikesUserB(false);
@@ -68,8 +66,6 @@ public class RelationshipService {
                 throw new ResourceNotFoundException("Relationship of users with id: " + userIdToUnmatch + ", "
                         + userService.getCurrentUser().getId() + " not found");
             }
-            System.out.println(relationship.getUserB().getEmail() + ", relasss");
-
             relationship.setUserBUnmatchesUserA(true);
             relationship.setUserALikesUserB(false);
             relationship.setUserBLikesUserA(false);

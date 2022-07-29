@@ -71,7 +71,6 @@ public class UserHobbyService {
             DecimalFormat df = new DecimalFormat("####0.00");
             Double hobbyAvgRating = hobbyTotalRating/hobbyCount;
             mapHobbyAvgRating.put(hobby, Double.valueOf(df.format(hobbyAvgRating)));
-            System.out.println(mapHobbyAvgRating.get(hobby) + ", hobby");
         }
 
         Map<Hobby,Double> orderedHobbyAvgs =

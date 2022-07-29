@@ -13,6 +13,4 @@ import java.util.Set;
 public interface RoleRepository extends JpaRepository<Roles, Long> {
     public Roles findByRole(String role);
 
-//    @Query(value = "SELECT r FROM Roles r WHERE r.role =:role")
-//    Set<Roles> getListOfRole(String role);
 }

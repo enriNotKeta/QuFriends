@@ -8,7 +8,6 @@ import app.repository.ReportRepository;
 import app.repository.UserReportRepository;
 import app.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -75,7 +74,6 @@ public class ReportController {
     @PostMapping(value = "/report/add")
     public String addReport(Model model,
                            @ModelAttribute("report") Report report) {
-        System.out.println(report.getTitle() + ", reporthere " + report.getDescription());
         try {
             reportService.save(report);
         } catch (Exception ex) {

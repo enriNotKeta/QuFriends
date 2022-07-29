@@ -44,7 +44,6 @@ public class UserService implements UserDetailsService {
     public boolean isUserAlreadyPresent(User user) {
         boolean isUserAlreadyExists = false;
         User existingUser = userRepository.findByEmail(user.getEmail());
-        // If user is found in database, then then user already exists.
         if (existingUser != null) {
             isUserAlreadyExists = true;
         }

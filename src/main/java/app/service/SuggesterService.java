@@ -29,7 +29,6 @@ public class SuggesterService {
     public List<User> getUsersToRecommend() {
         Boolean userHasHobbies = userHobbyService.existsByUserId(userService.getCurrentUser().getId());
         int otherUsersHaveHobbies = userHobbyService.otherUsersHaveHobbies(userService.getCurrentUser().getId());
-        System.out.println(userHasHobbies + ", userHasHobbies " + otherUsersHaveHobbies);
 
         if (!userHasHobbies || otherUsersHaveHobbies==0) {
 
@@ -49,13 +48,10 @@ public class SuggesterService {
         double ratingOfCurrUser[] = new double[HOBBY_COUNT];
         int counter = 0;
         for (UserHobby userHobby : userHobbies) {
-            System.out.println("userHobby " + userHobbies.size());
             ratingOfCurrUser[counter] = userHobby.getRating();
             counter++;
-            System.out.println("ratingOfCurrUser " + ratingOfCurrUser[counter-1]);
 
         }
-        System.out.println("here  " + ratingOfCurrUser);
         return ratingOfCurrUser;
 
     }
@@ -90,13 +86,9 @@ public class SuggesterService {
 
         List<User> suggestedUsersOrdered = new ArrayList<>();
         for (var entry : topMatches.entrySet()) {
-            System.out.println(entry.getKey().getUsername() + "/" + entry.getValue());
             suggestedUsersOrdered.add(entry.getKey());
         }
 
-        for (User u : suggestedUsersOrdered) {
-            System.out.println(u.getUsername() + ", unordered");
-        }
 
         return suggestedUsersOrdered;
     }

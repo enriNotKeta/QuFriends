@@ -4,8 +4,6 @@ import app.model.Hobby;
 import app.model.Report;
 import app.model.User;
 import app.service.*;
-import org.apache.mahout.cf.taste.recommender.RecommendedItem;
-import org.apache.mahout.cf.taste.recommender.Recommender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

@@ -61,9 +61,9 @@ public class RecommendationService {
         return recommender.recommend(userId, noOfRecommendations);
     }
 
-    public void displayRecommendations(int custId,
+    public void displayRecommendations(int userId,
                                               List<RecommendedItem> recommendations) {
-        System.out.println("Recommendations for customer " + custId + " are:");
+        System.out.println("Recommendations for user " + userId + " are:");
         System.out.println("*************************************************");
 
         for (RecommendedItem recommendation : recommendations) {
