@@ -45,6 +45,16 @@ public class SuggesterController {
     }
 
 
+    @GetMapping(value = "/everyone")
+    public String showAllUserNotRelated(Model model) {
+        model.addAttribute("users", userService.getAllUsersNotInRelationships());
+        model.addAttribute("currentUser", userService.getCurrentUser());
+
+        return "user/suggested";
+    }
+
+
+
 
 
 }

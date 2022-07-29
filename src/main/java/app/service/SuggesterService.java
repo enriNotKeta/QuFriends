@@ -27,6 +27,15 @@ public class SuggesterService {
     }
 
     public List<User> getUsersToRecommend() {
+        Boolean userHasHobbies = userHobbyService.existsByUserId(userService.getCurrentUser().getId());
+        int otherUsersHaveHobbies = userHobbyService.otherUsersHaveHobbies(userService.getCurrentUser().getId());
+        System.out.println(userHasHobbies + ", userHasHobbies " + otherUsersHaveHobbies);
+
+        if (!userHasHobbies || otherUsersHaveHobbies==0) {
+
+            return userService.getAllUsersNotInRelationships();
+        }
+
         double ratingOfCurrUser[] = getHobbyRatingsOfCurrentUser();
         HashMap<User,Double> mapSimilarityVals = getHobbyRatingsOfOtherUsers(ratingOfCurrUser);//Creating HashMap
         List<User> suggestedUsersOrdered = getSortedSuggestedUsers(mapSimilarityVals);
@@ -50,7 +59,6 @@ public class SuggesterService {
         return ratingOfCurrUser;
 
     }
-
 
     public HashMap<User,Double> getHobbyRatingsOfOtherUsers(double[] ratingOfCurrUser) {
         Set<User> users = userService.getUsersWithHobbiesToRecommend();

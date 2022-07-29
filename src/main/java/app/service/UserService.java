@@ -1,8 +1,6 @@
 package app.service;
 
 
-import app.exception.BadResourceException;
-import app.model.Report;
 import app.model.Roles;
 import app.model.User;
 import app.repository.RoleRepository;
@@ -201,8 +199,9 @@ public class UserService implements UserDetailsService {
         return userRepository.save(user);
     }
 
-    public Set<User> getUsersToRecommend() {
-        Set<User> users = userRepository.getUsersToRecommend(getCurrentUser().getId());
+    public List<User> getAllUsersNotInRelationships() {
+        List<User> adminUsers = getAdminUsers();
+        List<User> users = userRepository.getAllUsersNotInRelationships(getCurrentUser().getId(), adminUsers);
         return users;
     }
 
@@ -215,4 +214,12 @@ public class UserService implements UserDetailsService {
         List<User> users = userRepository.getRequestingUsers(getCurrentUser().getId());
         return users;
     }
+
+    public List<User> getAdminUsers() {
+        List<User> adminUsers = userRepository.getAdminUsers();
+        return adminUsers;
+    }
+
+
+
 }

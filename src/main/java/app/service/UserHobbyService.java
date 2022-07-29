@@ -31,6 +31,15 @@ public class UserHobbyService {
 
     }
 
+    public boolean existsByUserId(Long id) {
+        return userHobbyRepository.existsByUserId(id);
+    }
+
+    public int otherUsersHaveHobbies(Long id) {
+        return userHobbyRepository.otherUsersHaveHobbies(id);
+    }
+
+
     public List<UserHobby> findAllByUserId(Long userId) {
         List<UserHobby> userHobbies = userHobbyRepository.findAllByUserId(userId);
         return userHobbies;
