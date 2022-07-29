@@ -1,16 +1,24 @@
 package app.controller;
 
 
+import app.model.StatisticsPDFExporter;
 import app.model.User;
+import app.model.UserHobby;
 import app.model.UserReport;
 import app.service.UserReportService;
 import app.service.UserService;
+import com.lowagie.text.DocumentException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -83,5 +91,6 @@ public class AdminController {
 		userReportService.ignoreUserReport(userReportId);
 		return "redirect:/adminHome";
 	}
+
 
 }
